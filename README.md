@@ -10,7 +10,7 @@ The following tutorial sections will teach users to use the DMRIntTk package eff
  ### Prerequisites
  You need to install R (version >= 2.10).
 
- ## Installing##
+ ## Installing
  You can input the following commands to install the DMRIntTk R package.
  
  ```R
