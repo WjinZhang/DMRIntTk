@@ -1,0 +1,15 @@
+Package: DMRIntTk
+Type: Package
+Title: Integrate DMR sets predicted on a methylation array dataset
+Version: 0.1.0
+Author: Wenjin Zhang
+Maintainer: The package maintainer <zhangwenjin@sklmg.edu.cn>
+Description: This package is developed for integrating multiple DMR sets predicted from different DMR prediction methods on the same methylation array dataset. First, DMRIntTk_input function calculates the methylation differences of probes and DMRs. Then, DMRIntTk_matrix function constructs the reliablity weight matrix for each method under different thresholds. Next, DMRIntTk_method and DMRIntTk_weight functions calculates the covered DMRs and the weights of pre-split genomic bins. Finally, the DMRIntTk_densitypeak function clusters all genomic bins based on density peak clustering and returns the integrated DMR set according to the user' s preference.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.2
+Imports: 
+    dplyr (>= 1.0)
+Depends: 
+    R (>= 2.10)
