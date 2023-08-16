@@ -26,7 +26,7 @@
  ### DMRInt_input
  Prepare the input of DMRIntTk.
  This function **finds the probes included in each DMR, and calculates the methylation differences of each probe and DMR**.
- DMRIntTk_input function needs two files as input : 1. **Total DMR sets** obtained from different methods and 2. **Methylation level beta matrix** of all samples.
+ DMRInt_input function needs two files as input : 1. **Total DMR sets** obtained from different methods and 2. **Methylation level beta matrix** of all samples.
  
  
 ```R
@@ -34,7 +34,7 @@ totalDMR = read.csv(system.file("extdata","totalDMR.csv",package = 'DMRIntTk'))
 beta = readRDS(system.file("extdata","beta.RDS",package = 'DMRIntTk'))
 case = 1:5
 control = 6:10
-totalDMR=DMRInt_input(totalDMR, beta, case,control, arraytype = "450K")
+totalDMR = DMRInt_input(totalDMR, beta, case,control, arraytype = "450K")
 ```
  
  ### DMRInt_matrix
@@ -58,7 +58,7 @@ interval_method = DMRInt_method(totalDMR, arraytype = "450K" )
  
  
 ```R
-interval_weight=DMRInt_weight(interval_method,weight_m,beta,case,control)
+interval_weight = DMRInt_weight(interval_method,weight_m,beta,case,control)
 ```
  
  
@@ -67,15 +67,15 @@ interval_weight=DMRInt_weight(interval_method,weight_m,beta,case,control)
  and **total DMR sets**(obtained from DMRIntTk_input function).
 
 ```R
-Res=DMRInt_densitypeak(interval_weight, totalDMR, prefer = "probe", arraytype = "450K")
+Res = DMRInt_densitypeak(interval_weight, totalDMR, prefer = "probe", arraytype = "450K")
 ```
  
  ## Built With
   R is a free software environment for statistical computing and graphics.
   
  ## Authors
-*Xiaoqing Peng - Central South University
-*Wenjin Zhang - Central South University
+* Xiaoqing Peng - [Central South University]([http://example.net/](https://life.csu.edu.cn/jsxx.jsp?urltype=news.NewsContentUrl&wbtreeid=1815&wbnewsid=3625)) 
+* Wenjin Zhang - Central South University
 
 ## Version update
 * **DMRIntTk** v0.1.0 - * News version 0.1.0, 2023.03.17 The first version.*
