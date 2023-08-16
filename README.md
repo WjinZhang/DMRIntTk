@@ -6,6 +6,8 @@
  The main functions are as the following picture.
 
  ![image](https://github.com/WjinZhang/DMRIntTk/blob/main/Workflow.jpg)
+
+A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication steps output DMR sets are used as standard input in DMRIntTk. There are four major parts in DMRIntTk, including (b) segmenting the genome, (c) constructing the reliability matrix, (d) weighting bins and (e) integrating bins based on density peak clustering. The example of each part are shown.
  ## Getting started 
  
  These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
