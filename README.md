@@ -3,7 +3,7 @@
  DMRIntTk is a toolkit for integrating DMR sets predicted by different methods on a same methylation array dataset based on density peak clustering algorithm.
  It contains five main functions including DMRIntTk_input, DMRIntTk_matrix, DMRIntTk_method, DMRIntTk_weight and DMRIntTk_densitypeak.
 The following tutorial sections will teach users to use the DMRIntTk package efficiently and accurately.
- ![image]{Workflow}
+ ![image]{Workflow.jpg}
  ## Getting started 
  
  These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
