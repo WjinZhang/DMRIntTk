@@ -74,8 +74,8 @@ Res = DMRInt_densitypeak(interval_weight, totalDMR, prefer = "probe", arraytype 
   R is a free software environment for statistical computing and graphics.
   
  ## Authors
-* Xiaoqing Peng - [Central South University](https://life.csu.edu.cn/jsxx.jsp?urltype=news.NewsContentUrl&wbtreeid=1815&wbnewsid=3625))
-* Wenjin Zhang - Central South University
+* Xiaoqing Peng - [Central South University](https://life.csu.edu.cn/jsxx.jsp?urltype=news.NewsContentUrl&wbtreeid=1815&wbnewsid=3625)
+* Wenjin Zhang - [Central South University](https://life.csu.edu.cn/)
 
 ## Version update
-* **DMRIntTk** v0.1.0 - * News version 0.1.0, 2023.03.17 The first version.*
+* **DMRIntTk** v0.1.0 -  News version 0.1.0, 2023.03.17. The first version.
