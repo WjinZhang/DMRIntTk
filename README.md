@@ -20,7 +20,7 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  ```R
  install.packages("dplyr")
  install.packages("devtools")
- install.packges("ChAMP")
+ install.packages("ChAMP")
  install.packages("ENmix")
  install.packages("CpGassoc")
  install.packages("GenomicRanges")
@@ -32,7 +32,7 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  ```
  ## Running the tests
 
- ## DMR sets identification
+ ### DMR sets identification
  Before DMR integration, users should either use the identified multiple DMR sets, or directly use the DMR identification functions that the DMRIntTk provide to detect DMRs.
  For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon inforamtion "pd"**, you can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minium 
  probes can be customized, here we took 450K array and 3 probes for the example):
@@ -40,7 +40,7 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  beta = readRDS(system.file("extdata","beta.RDS",package = 'DMRIntTk'))
  pd=read.csv(system.file("extdata","pd.csv",package = 'DMRIntTk'))
  
- ### DMRInt_bumphunter
+ #### DMRInt_bumphunter
  bumphunter=DMRInt_bumphunter(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
  ### DMRInt_ProbeLasso
  ProbeLasso=DMRInt_ProbeLasso(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
