@@ -32,7 +32,7 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
 
  ### DMR sets identification
  Before DMR integration, users should either use the self-identified multiple DMR sets, or directly use the DMR identification functions that the DMRIntTk provide to detect DMRs.
- For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon inforamtion "pd"**, you can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minium 
+ For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon information "pd"**, you can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minimum 
  probes can be customized, here we took 450K array and 3 probes for the example):
  
  beta = readRDS(system.file("extdata","beta.RDS",package = 'DMRIntTk'))
