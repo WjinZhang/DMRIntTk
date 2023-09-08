@@ -1,7 +1,7 @@
 
 # Introduction
  **DMRIntTk** is a toolkit for **integrating DMR sets** predicted by different methods on a same methylation array dataset based on density peak clustering algorithm.
- It contains five main functions including **DMRInt_input**, **DMRInt_matrix**, **DMRInt_method**, **DMRInt_weight** and **DMRInt_densitypeak**.
+ In DMR integration, it contains five main functions including **DMRInt_input**, **DMRInt_matrix**, **DMRInt_method**, **DMRInt_weight** and **DMRInt_densitypeak**.
  
  The main functions are as the following picture.
 
@@ -20,11 +20,40 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  ```R
  install.packages("dplyr")
  install.packages("devtools")
- library(dplyr)
- library(devtools)
+ install.packges("ChAMP")
+ install.packages("ENmix")
+ install.packages("CpGassoc")
+ install.packages("GenomicRanges")
+ install.packages("mCSEA")
+ install_github("raivokolde/seqlm")
  install_github("WjinZhang/DMRIntTk")
+
+
  ```
  ## Running the tests
+
+ ## DMR sets identification
+ Before DMR integration, users should either use the identified multiple DMR sets, or directly use the DMR identification functions that the DMRIntTk provide to detect DMRs.
+ For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon inforamtion "pd"**, you can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minium 
+ probes can be customized, here we took 450K array and 3 probes for the example):
+ beta = readRDS(system.file("extdata","beta.RDS",package = 'DMRIntTk'))
+ pd=read.csv(system.file("extdata","pd.csv",package = 'DMRIntTk'))
+ ### DMRInt_bumphunter
+ bumphunter=DMRInt_bumphunter(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
+ ### DMRInt_ProbeLasso
+ ProbeLasso=DMRInt_ProbeLasso(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
+ ## DMRInt_combp
+ combp=DMRInt_combp(beta = beta, pd = pd, arraytype = "450K", minProbes = 3)
+ ## DMRInt_ipDMR
+ ipDMR=DMRInt_ipDMR(beta = beta, pd = pd, arraytype = "450K", minProbes = 3)
+ ## DMRInt_mCSEA 
+ mCSEA=DMRInt_mCSEA(beta, pd, caseGroup= "Tumor", refGroup = "Normal", regionsTypes = "promoters", platform = "450k", minCpGs = 3)
+ ## DMRInt_seqlm
+ seqlm=DMRInt_seqlm(beta = beta, pd = pd, arraytype = "450K", minCpGs = 3)
+
+ ## DMR sets integration
+
+ 
  ### DMRInt_input
  Prepare the input of DMRIntTk.
  This function **finds the probes included in each DMR, and calculates the methylation differences of each probe and DMR**.
