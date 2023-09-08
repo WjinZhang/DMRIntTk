@@ -36,19 +36,21 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  Before DMR integration, users should either use the identified multiple DMR sets, or directly use the DMR identification functions that the DMRIntTk provide to detect DMRs.
  For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon inforamtion "pd"**, you can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minium 
  probes can be customized, here we took 450K array and 3 probes for the example):
+ 
  beta = readRDS(system.file("extdata","beta.RDS",package = 'DMRIntTk'))
  pd=read.csv(system.file("extdata","pd.csv",package = 'DMRIntTk'))
+ 
  ### DMRInt_bumphunter
  bumphunter=DMRInt_bumphunter(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
  ### DMRInt_ProbeLasso
  ProbeLasso=DMRInt_ProbeLasso(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
- ## DMRInt_combp
+ ### DMRInt_combp
  combp=DMRInt_combp(beta = beta, pd = pd, arraytype = "450K", minProbes = 3)
- ## DMRInt_ipDMR
+ ### DMRInt_ipDMR
  ipDMR=DMRInt_ipDMR(beta = beta, pd = pd, arraytype = "450K", minProbes = 3)
- ## DMRInt_mCSEA 
+ ### DMRInt_mCSEA 
  mCSEA=DMRInt_mCSEA(beta, pd, caseGroup= "Tumor", refGroup = "Normal", regionsTypes = "promoters", platform = "450k", minCpGs = 3)
- ## DMRInt_seqlm
+ ### DMRInt_seqlm
  seqlm=DMRInt_seqlm(beta = beta, pd = pd, arraytype = "450K", minCpGs = 3)
 
  ## DMR sets integration
