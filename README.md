@@ -61,7 +61,7 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  #### DMRInt_seqlm
  ```R
  seqlm=DMRInt_seqlm(beta = beta, pd = pd, arraytype = "450K", minCpGs = 3)
-```R
+ ```
 
  ### DMR sets integration
  For self-identified DMR sets, users should organize them into the total DMR file containing chr, start, end and methodnames. The example total DMR file is provided.
