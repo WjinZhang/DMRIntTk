@@ -2,7 +2,7 @@
 # Introduction
  **DMRIntTk** is a toolkit for **integrating DMR sets** predicted by different methods on a same methylation array dataset based on density peak clustering algorithm.
  In DMR integration, it contains five main functions including **DMRInt_input**, **DMRInt_matrix**, **DMRInt_method**, **DMRInt_weight** and **DMRInt_densitypeak**.
- 
+ Before DMR integration, DMRIntTk provides several state-of-art DMR detection functions that help users obtain DMR sets with ease, including **DMRInt_bumphunter**, **DMRInt_ProbeLasso**, **DMRInt_combp**, **DMRInt_ipDMR**, **DMRInt_mCSEA** and **DMRInt_seqlm**.
  The main functions are as the following picture.
 
  ![image](https://github.com/WjinZhang/DMRIntTk/blob/main/Workflow.jpg)
@@ -56,7 +56,7 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
 ```
  #### DMRInt_mCSEA 
  ```R
- mCSEA=DMRInt_mCSEA(beta, pd, caseGroup= "Tumor", refGroup = "Normal", regionsTypes = "promoters", platform = "450k", minCpGs = 3)
+ mCSEA=DMRInt_mCSEA(beta = beta, pd = pd, caseGroup= "Tumor", refGroup = "Normal", regionsTypes = "promoters", platform = "450k", minCpGs = 3)
 ```
  #### DMRInt_seqlm
  ```R
