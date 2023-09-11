@@ -31,44 +31,44 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  ## Running the tests
 
  ### DMR sets identification
- Before DMR integration, users should either use the self-identified multiple DMR sets, or directly use the DMR identification functions that the DMRIntTk provide to detect DMRs.
- For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon information "pd"**, you can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minimum 
+ Since DMR integration requires multiple DMR sets predicted by different methods as inputs,users should either have the self-identified multiple DMR sets, or directly use the DMR detection functions provided by DMRIntTk to identify DMR sets.
+ For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon information "pd"**, users can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minimum 
  probes can be customized, here we took 450K array and 3 probes for the example):
  
  beta = readRDS(system.file("extdata","beta.RDS",package = 'DMRIntTk'))
- pd=read.csv(system.file("extdata","pd.csv",package = 'DMRIntTk'))
+ pd = read.csv(system.file("extdata","pd.csv",package = 'DMRIntTk'))
  
  #### DMRInt_bumphunter
  ```R
- bumphunter=DMRInt_bumphunter(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
+ bumphunter = DMRInt_bumphunter(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
  ```
  #### DMRInt_ProbeLasso
  ```R
- ProbeLasso=DMRInt_ProbeLasso(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
+ ProbeLasso = DMRInt_ProbeLasso(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
 ```
  #### DMRInt_combp
  ```R
- combp=DMRInt_combp(beta = beta, pd = pd, arraytype = "450K", minProbes = 3)
+ combp = DMRInt_combp(beta = beta, pd = pd, arraytype = "450K", minProbes = 3)
 ```
  #### DMRInt_ipDMR
  ```R
- ipDMR=DMRInt_ipDMR(beta = beta, pd = pd, arraytype = "450K", minProbes = 3)
+ ipDMR = DMRInt_ipDMR(beta = beta, pd = pd, arraytype = "450K", minProbes = 3)
 ```
  #### DMRInt_mCSEA 
  ```R
- mCSEA=DMRInt_mCSEA(beta = beta, pd = pd, caseGroup= "Tumor", refGroup = "Normal", regionsTypes = "promoters", platform = "450k", minCpGs = 3)
+ mCSEA = DMRInt_mCSEA(beta = beta, pd = pd, caseGroup= "Tumor", refGroup = "Normal", regionsTypes = "promoters", platform = "450k", minCpGs = 3)
 ```
  #### DMRInt_seqlm
  ```R
- seqlm=DMRInt_seqlm(beta = beta, pd = pd, arraytype = "450K", minCpGs = 3)
+ seqlm = DMRInt_seqlm(beta = beta, pd = pd, arraytype = "450K", minCpGs = 3)
  ```
 
  ### DMR sets integration
- For self-identified DMR sets, users should organize them into the total DMR file containing chr, start, end and methodnames. The example total DMR file is provided.
+ For self-identified DMR sets, users should organize them into the total DMR file containing **chromosome, start, end and methodnames**. The example total DMR file is provided.
  ```R
  totalDMR = read.csv(system.file("extdata","totalDMR.csv",package = 'DMRIntTk'))
  ```
- For the DMR sets identified by DMRIntTk,  users can get the total DMR set using following codes:
+ For the DMR sets identified by DMRIntTk, users can get the total DMR set using following codes:
  ```R
  DMRstring = c("chr","start","end", "methodname")
  totalDMR = rbind(bumphunter[,DMRstring], ProbeLasso[,DMRstring], mCSEA[,DMRstring], seqlm[,DMRstring], combp[,DMRstring], ipDMR[,DMRstring])
