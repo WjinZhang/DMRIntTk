@@ -76,11 +76,11 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  #### DMRInt_input
  Prepare the input of DMRIntTk.
  This function **finds the probes included in each DMR, and calculates the methylation differences of each probe and DMR**.
- DMRInt_input function needs two files as input : 1. **Total DMR sets** obtained from different methods and 2. **Methylation level beta matrix** of all samples.
+ DMRInt_input function needs two files as input : 1. **Total DMR sets** obtained from different methods and 2. **Methylation level beta matrix** of all samples. Plus, "case" and "control" are the columm numbers of two groups of samples, respectively.
 ```R
 case = 1:5
 control = 6:10
-totalDMR = DMRInt_input(totalDMR, beta, case,control, arraytype = "450K")
+totalDMR = DMRInt_input(totalDMR, beta, case, control, arraytype = "450K")
 ```
  
  #### DMRInt_matrix
