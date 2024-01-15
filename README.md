@@ -66,10 +66,12 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  ### DMR sets integration
  For self-identified DMR sets, users should organize them into the total DMR file containing **chromosome, start, end and methodnames**. The example total DMR file is provided.
  ```R
+ beta = readRDS(system.file("extdata","beta.RDS",package = 'DMRIntTk'))
  totalDMR = read.csv(system.file("extdata","totalDMR.csv",package = 'DMRIntTk'))
  ```
  For the DMR sets identified by DMRIntTk, users can get the total DMR set using following codes:
  ```R
+ beta = readRDS(system.file("extdata","beta.RDS",package = 'DMRIntTk'))
  DMRstring = c("chr","start","end", "methodname")
  totalDMR = rbind(bumphunter[,DMRstring], ProbeLasso[,DMRstring], mCSEA[,DMRstring], seqlm[,DMRstring], combp[,DMRstring], ipDMR[,DMRstring])
  ```
