@@ -17,13 +17,14 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  You can input the following commands to install the DMRIntTk R package.
  
  ```R
- install.packages("dplyr")
- install.packages("devtools")
- install.packages("ChAMP")
- install.packages("ENmix")
- install.packages("CpGassoc")
- install.packages("GenomicRanges")
- install.packages("mCSEA")
+ library(BiocManager)
+ BiocManager::install()("dplyr")
+ BiocManager::install()("devtools")
+ BiocManager::install()("ChAMP")
+ BiocManager::install()("ENmix")
+ BiocManager::install("CpGassoc")
+ BiocManager::install()("GenomicRanges")
+ BiocManager::install()("mCSEA")
  install_github("raivokolde/seqlm")
  install_github("WjinZhang/DMRIntTk")
  library(DMRIntTk)
