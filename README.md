@@ -1,8 +1,8 @@
 
 # Introduction
  **DMRIntTk** is a toolkit for **integrating DMR sets** predicted by different methods on a same methylation array dataset based on density peak clustering algorithm.
- In DMR integration, it contains five main functions including **DMRInt_input**, **DMRInt_matrix**, **DMRInt_method**, **DMRInt_weight** and **DMRInt_densitypeak**.
- Before DMR integration, DMRIntTk provides several state-of-art DMR detection functions that help users obtain DMR sets with ease, including **DMRInt_bumphunter**, **DMRInt_ProbeLasso**, **DMRInt_combp**, **DMRInt_ipDMR**, **DMRInt_mCSEA** and **DMRInt_seqlm**.
+ In DMR integration, it contains five main functions including **identify_DMR**, **DMRInt_input**, **DMRInt_method**, **DMRInt_weight**,  and **DMRInt_densitypeak**.
+ Before DMR integration, DMRIntTk provides several state-of-art DMR detection functions that help users obtain DMR sets with ease, including bumphunter, ProbeLasso, combp, ipDMR, mCSEA and seqlm. These methods can be easily conducted by the function **identify_DMR**.
  The main functions are as the following picture.
 
  ![image](https://github.com/WjinZhang/DMRIntTk/blob/main/Workflow.jpg)
@@ -11,13 +11,14 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  # Getting started 
  These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
  ## Prerequisites
- R (version >= 2.10) is required to be installed before using DMRIntTk.
+ R (version >= 4.0) is required to be installed before using DMRIntTk.
 
  ## Installing
  You can input the following commands to install the DMRIntTk R package.
  
  ```R
  library(BiocManager)
+ BiocManager::install("data.table")
  BiocManager::install("dplyr")
  BiocManager::install("devtools")
  BiocManager::install("ChAMP")
@@ -36,53 +37,23 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon information "pd"**, users can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minimum 
  probes can be customized, here we took 450K array and 3 probes for the example):
  ```R
- beta = readRDS(system.file("extdata","beta.RDS",package = 'DMRIntTk'))
- pd = read.csv(system.file("extdata","pd.csv",package = 'DMRIntTk'))
- ```
- #### DMRInt_bumphunter
- ```R
- bumphunter = DMRInt_bumphunter(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
- ```
- #### DMRInt_ProbeLasso
- ```R
- ProbeLasso = DMRInt_ProbeLasso(beta = beta, pheno=pd$Sample_Group, arraytype = "450K", minProbes = 3)
+ beta = readRDS(system.file("extdata", "beta_450K.RDS", package = 'DMRIntTk'))
+ pd = read.csv(system.file("extdata", "pd_450K.csv", package = 'DMRIntTk'))
+totalDMR = identify_DMR(beta = beta, method = c("bumphunter","combp","ipDMR","mCSEA","ProbeLasso","seqlm"), pheno = pd, arraytype = "450K", group1 = "Tumor", group2 = "Normal", minProbes = 3, regionsTypes = "promoter")
 ```
- #### DMRInt_combp
- ```R
- combp = DMRInt_combp(beta = beta, pd = pd, arraytype = "450K", minProbes = 3)
-```
- #### DMRInt_ipDMR
- ```R
- ipDMR = DMRInt_ipDMR(beta = beta, pd = pd, arraytype = "450K", minProbes = 3)
-```
- #### DMRInt_mCSEA 
- ```R
- mCSEA = DMRInt_mCSEA(beta = beta, pd = pd, caseGroup= "Tumor", refGroup = "Normal", regionsTypes = "promoters", platform = "450k", minCpGs = 3)
-```
- #### DMRInt_seqlm
- ```R
- seqlm = DMRInt_seqlm(beta = beta, pd = pd, arraytype = "450K", minCpGs = 3)
- ```
 
  ### DMR sets integration
  For self-identified DMR sets, users should organize them into the total DMR file containing **chromosome, start, end and methodnames**. The example total DMR file is provided.
  ```R
- beta = readRDS(system.file("extdata","beta.RDS",package = 'DMRIntTk'))
+ beta = readRDS(system.file("extdata","beta_450K.RDS",package = 'DMRIntTk'))
  totalDMR = read.csv(system.file("extdata","totalDMR.csv",package = 'DMRIntTk'))
- ```
- For the DMR sets identified by DMRIntTk, users can get the total DMR set using following codes:
- ```R
- DMRstring = c("chr","start","end", "methodname")
- totalDMR = rbind(bumphunter[,DMRstring], ProbeLasso[,DMRstring], mCSEA[,DMRstring], seqlm[,DMRstring], combp[,DMRstring], ipDMR[,DMRstring])
  ```
  #### DMRInt_input
  Prepare the input of DMRIntTk.
  This function **finds the probes included in each DMR, and calculates the methylation differences of each probe and DMR**.
- DMRInt_input function needs two files as input : 1. **Total DMR sets** obtained from different methods and 2. **Methylation level beta matrix** of all samples. Plus, "case" and "control" are the columm numbers of two groups of samples, respectively.
+ DMRInt_input function needs two files as input : 1. **Total DMR sets** obtained from different methods and 2. **Methylation level beta matrix** of all samples. 
 ```R
-case = grep("Tumor",colnames(beta))
-control = grep("Normal",colnames(beta))
-totalDMR = DMRInt_input(totalDMR, beta, case, control, arraytype = "450K")
+totalDMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")                                                        
 ```
  
  #### DMRInt_matrix
@@ -98,15 +69,13 @@ This function determines DMRs that cover each bin, and calculate the numbers of 
 It requires the **pre-split genomic bins file** and **total DMR sets** processed by the function DMRInt_input.
 
 ```R
-interval_method = DMRInt_method(totalDMR, arraytype = "450K" )
+bin_method = DMRInt_method(totalDMR, arraytype = "450K" )
 ```
  #### DMRInt_weight
- This function **calculates the weights of bins**. It requires **the pre-split genomic bins file**(processed from DMRIntTk_method function) 
- and **the reliability matrix** obtained from DMRInt_matrix function.
- 
+ This function **calculates the weights of bins**. It requires **the pre-split genomic bins file**(processed from DMRIntTk_method function).
  
 ```R
-interval_weight = DMRInt_weight(interval_method,weight_m,beta,case,control)
+bin_weight=DMRInt_weight(bin_method, totalDMR, pd, beta, group1 = "Tumor", group2 = "Normal")
 ```
  
  #### DMRInt_densitypeak
@@ -114,7 +83,7 @@ interval_weight = DMRInt_weight(interval_method,weight_m,beta,case,control)
  and **total DMR sets**(obtained from DMRIntTk_input function).
 
 ```R
-Res = DMRInt_densitypeak(interval_weight, totalDMR, prefer = "probe", arraytype = "450K")
+Res=DMRInt_densitypeak(bin_weight, totalDMR, prefer = "probe", arraytype = "450K")
 ```
  
  # Built With
@@ -125,4 +94,4 @@ Res = DMRInt_densitypeak(interval_weight, totalDMR, prefer = "probe", arraytype 
 * Wenjin Zhang - [Central South University](https://life.csu.edu.cn/)
 
 # Version update
-* **DMRIntTk** v0.1.0 -  News version 0.1.0, 2023.09.07. The first version.
+* **DMRIntTk** v0.1.0 -  News version 0.1.0, 2024.05.31. The first version.
