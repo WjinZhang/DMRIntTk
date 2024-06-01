@@ -34,7 +34,7 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  ## Quick use of DMRIntTk
  This is the pipeline of the idetification and integration of DMRs on 450K methylation array data:
 ```R
-beta = load(system.file("extdata", "beta_450K.RData", package = 'DMRIntTk'))
+beta = readRDS(system.file("extdata", "beta_450K.RDS", package = 'DMRIntTk'))
 
 pd = read.csv(system.file("extdata", "pd_450K.csv", package = 'DMRIntTk'))
 
@@ -53,7 +53,7 @@ Plus, the EPIC array data is also supported in DMRIntTk with the parameter array
  For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon information "pd"**, users can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minimum 
  probes can be customized, here we took 450K array and 3 probes for the example):
  ```R
- beta = load(system.file("extdata", "beta_450K.RData", package = 'DMRIntTk'))
+ beta = readRDS(system.file("extdata", "beta_450K.RDS", package = 'DMRIntTk'))
  pd = read.csv(system.file("extdata", "pd_450K.csv", package = 'DMRIntTk'))
 totalDMR = identify_DMR(beta = beta, method = c("bumphunter","combp","ipDMR","mCSEA","ProbeLasso","seqlm"), pheno = pd, arraytype = "450K", group1 = "Tumor", group2 = "Normal", minProbes = 3, regionsTypes = "promoter")
 totalDMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")            
