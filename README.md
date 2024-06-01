@@ -31,8 +31,18 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  library(DMRIntTk)
  ```
  ## Running the tests
-
- ### DMR sets identification
+ 1. Quick use of DMRIntTk.
+ This is the pipeline of the idetification and integration of DMRs on 450K methylation array data:
+```R
+beta = load(system.file("extdata", "beta_450K.RData", package = 'DMRIntTk'))
+pd = read.csv(system.file("extdata", "pd_450K.csv", package = 'DMRIntTk'))
+totalDMR = identify_DMR(beta = beta, method = c("bumphunter","combp","ipDMR","mCSEA","ProbeLasso","seqlm"), pheno = pd, arraytype = "450K", group1 = "Tumor", group2 = "Normal", minProbes = 3)
+bin_method = DMRInt_method(totalDMR, arraytype = "450K" )
+bin_weight=DMRInt_weight(bin_method, totalDMR, pd, beta, group1 = "Tumor", group2 = "Normal")
+Res=DMRInt_densitypeak(bin_weight, totalDMR, prefer = "probe", arraytype = "450K")
+```
+ 3. Step-by-step use of DMRIntTk
+### DMR sets identification
  Since DMR integration requires multiple DMR sets predicted by different methods as inputs, users should either have the self-identified multiple DMR sets, or directly use the DMR detection functions provided by DMRIntTk to identify DMR sets.
  For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon information "pd"**, users can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minimum 
  probes can be customized, here we took 450K array and 3 probes for the example):
@@ -40,6 +50,7 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  beta = load(system.file("extdata", "beta_450K.RData", package = 'DMRIntTk'))
  pd = read.csv(system.file("extdata", "pd_450K.csv", package = 'DMRIntTk'))
 totalDMR = identify_DMR(beta = beta, method = c("bumphunter","combp","ipDMR","mCSEA","ProbeLasso","seqlm"), pheno = pd, arraytype = "450K", group1 = "Tumor", group2 = "Normal", minProbes = 3, regionsTypes = "promoter")
+totalDMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")            
 ```
 
  ### DMR sets integration
@@ -55,14 +66,6 @@ totalDMR = identify_DMR(beta = beta, method = c("bumphunter","combp","ipDMR","mC
 ```R
 totalDMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")                                                        
 ```
- 
- #### DMRInt_matrix
- This function **calculates the DMRscore and weights of all methods** under different methylation difference thresholds and
- **constructs the reliability matrix** for each method. It requires the DMR sets file processed by the function DMRInt_input.
-
- ```R
- weight_m = DMRInt_matrix(totalDMR)
- ```
  
  #### DMRInt_method
 This function determines DMRs that cover each bin, and calculate the numbers of methods that cover the bin. 
