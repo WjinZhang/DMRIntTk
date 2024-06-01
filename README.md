@@ -30,8 +30,8 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  install_github("WjinZhang/DMRIntTk")
  library(DMRIntTk)
  ```
- ## Running the tests
- 1. Quick use of DMRIntTk.
+ # Running the tests
+ ## Quick use of DMRIntTk.
  This is the pipeline of the idetification and integration of DMRs on 450K methylation array data:
 ```R
 beta = load(system.file("extdata", "beta_450K.RData", package = 'DMRIntTk'))
@@ -46,7 +46,7 @@ bin_weight=DMRInt_weight(bin_method, totalDMR, pd, beta, group1 = "Tumor", group
 
 Res=DMRInt_densitypeak(bin_weight, totalDMR, prefer = "probe", arraytype = "450K")
 ```
- 3. Step-by-step use of DMRIntTk
+## Step-by-step use of DMRIntTk
 ### DMR sets identification
  Since DMR integration requires multiple DMR sets predicted by different methods as inputs, users should either have the self-identified multiple DMR sets, or directly use the DMR detection functions provided by DMRIntTk to identify DMR sets.
  For the latter situation, with the **methylation beta value matrix "beta"** and **the phenomenon information "pd"**, users can easily obtain the desired DMR sets with following functions(p.s.: the arraytype and minimum 
@@ -57,14 +57,13 @@ Res=DMRInt_densitypeak(bin_weight, totalDMR, prefer = "probe", arraytype = "450K
 totalDMR = identify_DMR(beta = beta, method = c("bumphunter","combp","ipDMR","mCSEA","ProbeLasso","seqlm"), pheno = pd, arraytype = "450K", group1 = "Tumor", group2 = "Normal", minProbes = 3, regionsTypes = "promoter")
 totalDMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")            
 ```
-
  ### DMR sets integration
  For self-identified DMR sets, users should organize them into the total DMR file containing **chromosome, start, end and methodnames**. The example total DMR file is provided.
  ```R
  beta = load(system.file("extdata","beta_450K.RData",package = 'DMRIntTk'))
  totalDMR = read.csv(system.file("extdata","totalDMR.csv",package = 'DMRIntTk'))
  ```
- #### DMRInt_input
+ ### DMRInt_input
  Prepare the input of DMRIntTk.
  This function **finds the probes included in each DMR, and calculates the methylation differences of each probe and DMR**.
  DMRInt_input function needs two files as input : 1. **Total DMR sets** obtained from different methods and 2. **Methylation level beta matrix** of all samples. 
@@ -72,21 +71,21 @@ totalDMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , a
 totalDMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")                                                        
 ```
  
- #### DMRInt_method
+ ### DMRInt_method
 This function determines DMRs that cover each bin, and calculate the numbers of methods that cover the bin. 
 It requires the **pre-split genomic bins file** and **total DMR sets** processed by the function DMRInt_input.
 
 ```R
 bin_method = DMRInt_method(totalDMR, arraytype = "450K" )
 ```
- #### DMRInt_weight
+ ### DMRInt_weight
  This function **calculates the weights of bins**. It requires **the pre-split genomic bins file**(processed from DMRIntTk_method function).
  
 ```R
 bin_weight=DMRInt_weight(bin_method, totalDMR, pd, beta, group1 = "Tumor", group2 = "Normal")
 ```
  
- #### DMRInt_densitypeak
+ ### DMRInt_densitypeak
  This function **clusters all bins** based on density peak algorithm. It needs the **bins file** with calculated weights(obtained from DMRInt_weight function)
  and **total DMR sets**(obtained from DMRIntTk_input function).
 
