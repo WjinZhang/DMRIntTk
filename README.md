@@ -35,10 +35,15 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  This is the pipeline of the idetification and integration of DMRs on 450K methylation array data:
 ```R
 beta = load(system.file("extdata", "beta_450K.RData", package = 'DMRIntTk'))
+
 pd = read.csv(system.file("extdata", "pd_450K.csv", package = 'DMRIntTk'))
+
 totalDMR = identify_DMR(beta = beta, method = c("bumphunter","combp","ipDMR","mCSEA","ProbeLasso","seqlm"), pheno = pd, arraytype = "450K", group1 = "Tumor", group2 = "Normal", minProbes = 3)
+
 bin_method = DMRInt_method(totalDMR, arraytype = "450K" )
+
 bin_weight=DMRInt_weight(bin_method, totalDMR, pd, beta, group1 = "Tumor", group2 = "Normal")
+
 Res=DMRInt_densitypeak(bin_weight, totalDMR, prefer = "probe", arraytype = "450K")
 ```
  3. Step-by-step use of DMRIntTk
