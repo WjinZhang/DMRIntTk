@@ -31,7 +31,7 @@ A schematic diagram of DMRIntTk. (a) Data pre-processing and DMR identication st
  library(DMRIntTk)
  ```
  # Running the tests
- ## Quick use of DMRIntTk.
+ ## Quick use of DMRIntTk
  This is the pipeline of the idetification and integration of DMRs on 450K methylation array data:
 ```R
 beta = load(system.file("extdata", "beta_450K.RData", package = 'DMRIntTk'))
@@ -46,6 +46,7 @@ bin_weight=DMRInt_weight(bin_method, totalDMR, pd, beta, group1 = "Tumor", group
 
 Res=DMRInt_densitypeak(bin_weight, totalDMR, prefer = "probe", arraytype = "450K")
 ```
+Plus, the EPIC array data is also supported in DMRIntTk with the parameter arraytype = "EPIC". More examples are shown in the help page of DMRIntTk package.
 ## Step-by-step use of DMRIntTk
 ### DMR sets identification
  Since DMR integration requires multiple DMR sets predicted by different methods as inputs, users should either have the self-identified multiple DMR sets, or directly use the DMR detection functions provided by DMRIntTk to identify DMR sets.
