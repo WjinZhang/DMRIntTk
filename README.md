@@ -40,11 +40,13 @@ pd = read.csv(system.file("extdata", "pd_450K.csv", package = 'DMRIntTk'))
 
 totalDMR = identify_DMR(beta = beta, method = c("bumphunter","combp","ipDMR","mCSEA","ProbeLasso","seqlm"), pheno = pd, arraytype = "450K", group1 = "Tumor", group2 = "Normal", minProbes = 3)
 
-bin_method = DMRInt_method(totalDMR, arraytype = "450K" )
+input_DMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")
 
-bin_weight=DMRInt_weight(bin_method, totalDMR, pd, beta, group1 = "Tumor", group2 = "Normal")
+bin_method = DMRInt_method(input_DMR, arraytype = "450K" )
 
-Res=DMRInt_densitypeak(bin_weight, totalDMR, prefer = "probe", arraytype = "450K")
+bin_weight=DMRInt_weight(bin_method, input_DMR, pd, beta, group1 = "Tumor", group2 = "Normal")
+
+Res=DMRInt_densitypeak(bin_weight, input_DMR, prefer = "probe", arraytype = "450K")
 ```
 Plus, the EPIC array data is also supported in DMRIntTk with the parameter arraytype = "EPIC". More examples are shown in the help page of DMRIntTk package.
 ## Step-by-step use of DMRIntTk
@@ -56,12 +58,12 @@ Plus, the EPIC array data is also supported in DMRIntTk with the parameter array
  beta = readRDS(system.file("extdata", "beta_450K.RDS", package = 'DMRIntTk'))
  pd = read.csv(system.file("extdata", "pd_450K.csv", package = 'DMRIntTk'))
 totalDMR = identify_DMR(beta = beta, method = c("bumphunter","combp","ipDMR","mCSEA","ProbeLasso","seqlm"), pheno = pd, arraytype = "450K", group1 = "Tumor", group2 = "Normal", minProbes = 3, regionsTypes = "promoter")
-totalDMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")            
+input_DMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")            
 ```
  ### DMR sets integration
  For self-identified DMR sets, users should organize them into the total DMR file containing **chromosome, start, end and methodnames**. The example total DMR file is provided.
  ```R
- beta = load(system.file("extdata","beta_450K.RData",package = 'DMRIntTk'))
+ beta = readRDS(system.file("extdata","beta_450K.RDS",package = 'DMRIntTk'))
  totalDMR = read.csv(system.file("extdata","totalDMR.csv",package = 'DMRIntTk'))
  ```
  ### DMRInt_input
@@ -69,7 +71,7 @@ totalDMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , a
  This function **finds the probes included in each DMR, and calculates the methylation differences of each probe and DMR**.
  DMRInt_input function needs two files as input : 1. **Total DMR sets** obtained from different methods and 2. **Methylation level beta matrix** of all samples. 
 ```R
-totalDMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")                                                        
+input_DMR = DMRInt_input(totalDMR, beta , group1 = "Tumor", group2 = "Normal" , arraytype = "450K")                                                        
 ```
  
  ### DMRInt_method
@@ -77,21 +79,21 @@ This function determines DMRs that cover each bin, and calculate the numbers of 
 It requires the **pre-split genomic bins file** and **total DMR sets** processed by the function DMRInt_input.
 
 ```R
-bin_method = DMRInt_method(totalDMR, arraytype = "450K" )
+bin_method = DMRInt_method(input_DMR, arraytype = "450K" )
 ```
  ### DMRInt_weight
  This function **calculates the weights of bins**. It requires **the pre-split genomic bins file**(processed from DMRIntTk_method function).
  
 ```R
-bin_weight=DMRInt_weight(bin_method, totalDMR, pd, beta, group1 = "Tumor", group2 = "Normal")
+bin_weight=DMRInt_weight(bin_method, input_DMR, pd, beta, group1 = "Tumor", group2 = "Normal")
 ```
  
  ### DMRInt_densitypeak
  This function **clusters all bins** based on density peak algorithm. It needs the **bins file** with calculated weights(obtained from DMRInt_weight function)
- and **total DMR sets**(obtained from DMRIntTk_input function).
+ and **input_DMR**(obtained from DMRIntTk_input function).
 
 ```R
-Res=DMRInt_densitypeak(bin_weight, totalDMR, prefer = "probe", arraytype = "450K")
+Res=DMRInt_densitypeak(bin_weight, input_DMR, prefer = "probe", arraytype = "450K")
 ```
  
  # Built With
